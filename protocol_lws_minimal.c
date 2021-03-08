@@ -94,47 +94,51 @@ callback_minimal(struct lws *wsi, enum lws_callback_reasons reason,
 				  pss, vhd->pss_list);
 		break;
 
-	case LWS_CALLBACK_SERVER_WRITEABLE:
-		if (!vhd->amsg.payload)
-			break;
-
-		if (pss->last == vhd->current)
-			break;
-
-		/* notice we allowed for LWS_PRE in the payload already */
-		m = lws_write(wsi, ((unsigned char *)vhd->amsg.payload) +
-			      LWS_PRE, vhd->amsg.len, LWS_WRITE_TEXT);
-		if (m < (int)vhd->amsg.len) {
-			lwsl_err("ERROR %d writing to ws\n", m);
-			return -1;
-		}
-
-		pss->last = vhd->current;
-		break;
 
 	case LWS_CALLBACK_RECEIVE:
-		if (vhd->amsg.payload)
-			__minimal_destroy_message(&vhd->amsg);
+		//if (vhd->amsg.payload)
+		//	__minimal_destroy_message(&vhd->amsg);
+	    lwsl_user("hola he recibido un msg\n");
 
-		vhd->amsg.len = len;
+		//vhd->amsg.len = len;
 		/* notice we over-allocate by LWS_PRE */
-		vhd->amsg.payload = malloc(LWS_PRE + len);
-		if (!vhd->amsg.payload) {
-			lwsl_user("OOM: dropping\n");
-			break;
-		}
+		//vhd->amsg.payload = malloc(LWS_PRE + len);
+		//if (!vhd->amsg.payload) {
+		//	lwsl_user("OOM: dropping\n");
+		//	break;
+		//}
 
-		memcpy((char *)vhd->amsg.payload + LWS_PRE, in, len);
-		vhd->current++;
+//		memcpy((char *)vhd->amsg.payload + LWS_PRE, in, len);
+		//vhd->current++;
 
+        lwsl_user("he recibido esta cadena %.*s\n",(int)len,(char *) in);
 		/*
 		 * let everybody know we want to write something on them
 		 * as soon as they are ready
 		 */
-		lws_start_foreach_llp(struct per_session_data__minimal **,
-				      ppss, vhd->pss_list) {
-			lws_callback_on_writable((*ppss)->wsi);
-		} lws_end_foreach_llp(ppss, pss_list);
+		//lws_start_foreach_llp(struct per_session_data__minimal **,
+		//		      ppss, vhd->pss_list) {
+		//	lws_callback_on_writable((*ppss)->wsi);
+		//} lws_end_foreach_llp(ppss, pss_list);
+		//lws_callback_on_writable(wsi);
+        //
+        //
+        char *cadena="OK";
+        char *cadena_ext[50];
+		memcpy((char *)cadena_ext + LWS_PRE, cadena, 3);
+
+		/* notice we allowed for LWS_PRE in the payload already */
+//		m = lws_write(wsi, ((unsigned char *)vhd->amsg.payload) +
+//			      LWS_PRE, vhd->amsg.len, LWS_WRITE_TEXT);
+		m = lws_write(wsi, ((unsigned char *)cadena_ext) + LWS_PRE, 2, LWS_WRITE_TEXT);
+		//if (m < (int)vhd->amsg.len) {
+		//	lwsl_err("ERROR %d writing to ws\n", m);
+		//	return -1;
+		//}
+		if (m < 2) {
+			lwsl_err("ERROR %d writing to ws\n", m);
+			return -1;
+		}
 		break;
 
 	default:

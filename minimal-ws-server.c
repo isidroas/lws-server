@@ -37,7 +37,7 @@ static int interrupted;
 static const struct lws_http_mount mount = {
 	/* .mount_next */		NULL,		/* linked-list "next" */
 	/* .mountpoint */		"/",		/* mountpoint URL */
-	/* .origin */			"./mount-origin",  /* serve from dir */
+	/* .origin */			"../mount-origin",  /* serve from dir */
 	/* .def */			"index.html",	/* default filename */
 	/* .protocol */			NULL,
 	/* .cgienv */			NULL,
