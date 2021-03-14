@@ -1,19 +1,3 @@
-/*
- * lws-minimal-ws-server
- *
- * Written in 2010-2019 by Andy Green <andy@warmcat.com>
- *
- * This file is made available under the Creative Commons CC0 1.0
- * Universal Public Domain Dedication.
- *
- * This demonstrates the most minimal http server you can make with lws,
- * with an added websocket chat server.
- *
- * To keep it simple, it serves stuff in the subdirectory "./mount-origin" of
- * the directory it was started in.
- * You can change that by changing mount.origin.
- */
-
 #include <libwebsockets.h>
 #include <string.h>
 #include <signal.h>
@@ -87,15 +71,6 @@ int main(int argc, const char **argv)
 	info.vhost_name = "localhost";
 	info.options =
 		LWS_SERVER_OPTION_HTTP_HEADERS_SECURITY_BEST_PRACTICES_ENFORCE;
-
-#if defined(LWS_WITH_TLS)
-	if (lws_cmdline_option(argc, argv, "-s")) {
-		lwsl_user("Server using TLS\n");
-		info.options |= LWS_SERVER_OPTION_DO_SSL_GLOBAL_INIT;
-		info.ssl_cert_filepath = "localhost-100y.cert";
-		info.ssl_private_key_filepath = "localhost-100y.key";
-	}
-#endif
 
 	if (lws_cmdline_option(argc, argv, "-h"))
 		info.options |= LWS_SERVER_OPTION_VHOST_UPG_STRICT_HOST_CHECK;
