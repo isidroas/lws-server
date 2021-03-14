@@ -56,11 +56,26 @@ document.addEventListener("DOMContentLoaded", function() {
 	
 	function sendmsg()
 	{
+    document.getElementById("r").value = 
+      document.getElementById("r").value + ">>" + 
+      document.getElementById("m").value + "\n";
 		ws.send(document.getElementById("m").value);
 		document.getElementById("m").value = "";
 	}
+
+	function sendmsg_key(event)
+	{
+    // Detect enter key
+    if(event.keyCode == 13){
+      // Cancel the default action, if needed
+      event.preventDefault();
+      sendmsg();
+    }
+	}
 	
 	document.getElementById("b").addEventListener("click", sendmsg);
+	document.getElementById("m").addEventListener("keyup", sendmsg_key);
+	
 	
 }, false);
 
