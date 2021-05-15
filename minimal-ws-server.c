@@ -78,6 +78,7 @@ int main(int argc, const char **argv)
 	if (lws_cmdline_option(argc, argv, "-v"))
 		info.retry_and_idle_policy = &retry;
 
+    led_tcp_initialize();
 	context = lws_create_context(&info);
 	if (!context) {
 		lwsl_err("lws init failed\n");
@@ -88,6 +89,7 @@ int main(int argc, const char **argv)
 		n = lws_service(context, 0);
 
 	lws_context_destroy(context);
+    led_tcp_close();
 
 	return 0;
 }

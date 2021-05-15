@@ -59,7 +59,7 @@ document.addEventListener("DOMContentLoaded", function() {
     document.getElementById("r").value = 
       document.getElementById("r").value + ">>" + 
       document.getElementById("m").value + "\n";
-		ws.send(document.getElementById("m").value);
+		ws.send(document.getElementById("m").value + "\n");
 		document.getElementById("m").value = "";
 	}
 
